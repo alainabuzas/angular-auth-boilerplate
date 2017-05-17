@@ -1,39 +1,39 @@
-angular.module('RecipeCtrls', ['RecipeServices'])
-    .controller('HomeCtrl', ['$scope', 'Recipe', function($scope, Recipe) {
+angular.module('ItemCtrls', ['ItemServices'])
+    .controller('HomeCtrl', ['$scope', 'Item', function($scope, Item) {
         $scope.recipes = [];
 
-        Recipe.query(function success(data) {
+        Item.query(function success(data) {
             $scope.recipes = data;
         }, function error(data) {
             console.log(data);
         });
 
-        $scope.deleteRecipe = function(id, recipesIdx) {
+        $scope.deleteRecipe = function(id, itemIdx) {
             Recipe.delete({ id: id }, function success(data) {
-                $scope.recipes.splice(recipesIdx, 1);
+                $scope.items.splice(itemIdx, 1);
             }, function error(data) {
                 console.log(data);
             });
         };
     }])
-    .controller('ShowCtrl', ['$scope', '$stateParams', 'Recipe', function($scope, $stateParams, Recipe) {
-        $scope.recipe = {};
+    .controller('ShowCtrl', ['$scope', '$stateParams', 'Item', function($scope, $stateParams, Item) {
+        $scope.item = {};
 
-        Recipe.get({ id: $stateParams.id }, function success(data) {
-            $scope.recipe = data;
+        Item.get({ id: $stateParams.id }, function success(data) {
+            $scope.item = data;
         }, function error(data) {
             console.log(data);
         });
     }])
-    .controller('NewCtrl', ['$scope', '$location', 'Recipe', function($scope, $location, Recipe) {
-        $scope.recipe = {
+    .controller('NewCtrl', ['$scope', '$location', 'Item', function($scope, $location, Item) {
+        $scope.item = {
             title: '',
             description: '',
             image: ''
         };
 
-        $scope.createRecipe = function() {
-            Recipe.save($scope.recipe, function success(data) {
+        $scope.createItem = function() {
+            Item.save($scope.item, function success(data) {
                 $location.path('/');
             }, function error(data) {
                 console.log(data);
